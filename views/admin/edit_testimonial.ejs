@@ -1,0 +1,90 @@
+<%- include('../_layouts/adminheader') %>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/adminstyle.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdn.ckeditor.com/4.6.2/standard-all/ckeditor.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.20/jquery.fancybox.min.js"></script>
+<script src="../js/main1.js"></script>
+<script src="/js/main1.js"></script>
+<script src="//cdn.ckeditor.com/4.7.1/standard/ckeditor.js"></script>
+<h2 class="page-title">Edit Testimonial</h2>
+<a href="/admin/testimonials" class="btn btn-primary">Back to all testimonials</a>
+<br><br>
+
+<form method="post" action="/admin/testimonial/edit-testimonial/<%= id %>" enctype="multipart/form-data">
+    
+    <div class="form-group">
+        <label for="">Name</label>
+        <input type="text" class="form-control" name="name" value="<%= name %>" placeholder="Name">
+    </div>
+    
+    <div class="form-group">
+        <label for="">Content</label>
+        <textarea name="content" class="form-control" cols="30" rows="10" placeholder="Content"><%= content %></textarea>
+    </div>
+    <div class="form-group">
+        <label for="">Current Image</label>
+        <p>
+            <% if (image == "") { %>
+            <img id="noimage" src="/images/noimage.png" alt="">
+            <% } else {%>
+            <img id="noimage" src="/testimonial_images/<%= id %>/<%= image %>" alt="">
+            <% } %>
+        </p>
+    </div>
+    
+    <div class="form-group">
+        <label for="">Upload Image</label>
+        <input type="file" class="form-control" name="image" id="img">
+        <img src="#" id="imgPreview" alt="">
+    </div>
+    
+    <input type="hidden" name="pimage" value="<%= image %>">
+    <button class="btn btn-default">Submit</button>
+</form>
+
+<hr>
+
+<br><br>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.1.1/basic.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.1.1/dropzone.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.1.1/dropzone.js"></script>
+<script>
+    
+    // Preview image
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            
+            reader.onload = function(e) {
+                $("#imgPreview").attr('src', e.target.result).width(100).height(100);
+            }
+            
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    
+    $("#img").change(function() {
+        readURL(this);
+    });
+    
+    // Dropzone
+    Dropzone.options.dropzoneForm = {
+        acceptedFiles: "image/*",
+        init: function() {
+            this.on("queuecomplete", function(file) {
+               setTimeout(function() {
+                location.reload()
+                }, 1000); 
+            });
+        }
+    }
+CKEDITOR.replace('ta');
+</script>
